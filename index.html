@@ -1,1 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruins Of Heaven — Banana Studios</title>
+<style>
+  @font-face {
+    font-family: 'Ancient Ruin';
+    src: url('https://raw.githubusercontent.com/Banana-Studioss/Ruins-Of-Heaven/main/Ancient%20Ruin.ttf') format('truetype');
+    font-display: swap;
+  }
 
+  :root {
+    --bg: #12151a;
+    --bg-raised: #181c22;
+    --parchment: #e8e2d4;
+    --parchment-dim: #a8a294;
+    --ben: #c1573c;
+    --mercedes: #8fb3c9;
+    --gem: #c9d4a5;
+    --line: #2a2f38;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--parchment);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .display {
+    font-family: 'Ancient Ruin', Georgia, 'Times New Roman', serif;
+    font-size: 48px;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+
+  a { color: inherit; }
+
+  :focus-visible {
+    outline: 2px solid var(--gem);
+    outline-offset: 3px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: linear-gradient(to bottom, rgba(18,21,26,0.9), transparent);
+  }
+  .nav-mark {
+    font-family: 'Ancient Ruin', Georgia, serif;
+    font-size: 20px;
+    color: var(--parchment);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--parchment-dim);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--parchment); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    overflow: hidden;
+  }
+
+  .glow {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.35;
+  }
+  .glow-ben {
+    background: var(--ben);
+    top: 10%;
+    left: 20%;
+  }
+  .glow-mercedes {
+    background: var(--mercedes);
+    bottom: 10%;
+    right: 20%;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 9vw, 108px);
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero .tagline {
+    margin-top: 28px;
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--parchment-dim);
+    max-width: 560px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-ctas {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    transition: all 0.25s ease;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--gem);
+    color: #1a1f16;
+    border-color: var(--gem);
+    font-weight: 600;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201, 212, 165, 0.25);
+  }
+  .btn-secondary {
+    color: var(--parchment);
+    background: transparent;
+  }
+  .btn-secondary:hover {
+    border-color: var(--parchment-dim);
+    background: var(--bg-raised);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(6px); opacity: 1; }
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 120px 24px;
+  }
+  .section-label {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(32px, 4vw, 48px);
+    margin-bottom: 56px;
+    max-width: 640px;
+  }
+
+  /* ---------- PREMISE ---------- */
+  .premise-text {
+    font-size: clamp(18px, 2.2vw, 24px);
+    color: var(--parchment);
+    max-width: 720px;
+    font-weight: 300;
+  }
+  .premise-text strong {
+    color: var(--gem);
+    font-weight: 600;
+  }
+
+  /* ---------- CHARACTERS ---------- */
+  .characters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .char-card {
+    background: var(--bg-raised);
+    padding: 48px 40px;
+  }
+  .char-card.ben { border-top: 3px solid var(--ben); }
+  .char-card.mercedes { border-top: 3px solid var(--mercedes); }
+
+  .char-name {
+    font-family: 'Ancient Ruin', Georgia, serif;
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+  .char-card.ben .char-name { color: var(--ben); }
+  .char-card.mercedes .char-name { color: var(--mercedes); }
+
+  .char-role {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--parchment-dim);
+    margin-bottom: 24px;
+  }
+
+  .char-blurb {
+    font-size: 16px;
+    color: var(--parchment-dim);
+    max-width: 420px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 24px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--parchment-dim);
+  }
+
+  /* ---------- PAGES ---------- */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 160px 24px 60px;
+  }
+  .page-hero .section-label { margin-bottom: 12px; }
+  .page-hero h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    max-width: 640px;
+  }
+  .page-hero .page-sub {
+    margin-top: 16px;
+    color: var(--parchment-dim);
+    max-width: 560px;
+    font-size: 17px;
+  }
+
+  /* ---------- WIKI ---------- */
+  .wiki-entry {
+    border-bottom: 1px solid var(--line);
+    padding: 32px 0;
+  }
+  .wiki-entry:first-child { padding-top: 0; }
+  .wiki-entry:last-child { border-bottom: none; }
+  .wiki-term {
+    font-family: 'Ancient Ruin', Georgia, serif;
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+  .wiki-def {
+    color: var(--parchment-dim);
+    font-size: 16px;
+    max-width: 680px;
+  }
+  .wiki-note {
+    margin-top: 40px;
+    padding: 16px 20px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--parchment-dim);
+  }
+
+  /* ---------- SOCIALS ---------- */
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .social-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px 32px;
+    text-decoration: none;
+    color: var(--parchment);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .social-card:hover {
+    border-color: var(--gem);
+    transform: translateY(-2px);
+  }
+  .social-name {
+    font-family: 'Ancient Ruin', Georgia, serif;
+    font-size: 22px;
+  }
+  .social-handle {
+    font-size: 14px;
+    color: var(--parchment-dim);
+  }
+
+  /* ---------- ITCH EMBED ---------- */
+  .embed-wrap {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 620px;
+  }
+  .embed-wrap iframe {
+    width: 100%;
+    max-width: 552px;
+    display: block;
+  }
+  .embed-fallback {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--parchment-dim);
+  }
+  .embed-fallback a { color: var(--gem); text-decoration: underline; }
+
+  /* ---------- MODDING ---------- */
+  .server-banner {
+    display: none;
+    background: #3a2020;
+    border: 1px solid #6b3232;
+    color: #f0c9c9;
+    border-radius: 6px;
+    padding: 14px 20px;
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .server-banner.show { display: block; }
+
+  .modding-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .upload-form {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--parchment-dim);
+  }
+  .form-field input[type="text"],
+  .form-field textarea {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 10px 12px;
+    color: var(--parchment);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .form-field textarea { resize: vertical; min-height: 80px; }
+  .form-field input[type="file"] {
+    font-size: 13px;
+    color: var(--parchment-dim);
+  }
+  .form-submit-status {
+    font-size: 13px;
+    min-height: 18px;
+  }
+  .form-submit-status.error { color: #e08a8a; }
+  .form-submit-status.success { color: var(--gem); }
+
+  .mod-browse-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .mod-card {
+    display: grid;
+    grid-template-columns: 96px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .mod-card img {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--bg);
+  }
+  .mod-card-name {
+    font-family: 'Ancient Ruin', Georgia, serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .mod-card-creator {
+    font-size: 12px;
+    color: var(--parchment-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .mod-card-desc {
+    font-size: 14px;
+    color: var(--parchment-dim);
+  }
+  .mod-empty-state {
+    color: var(--parchment-dim);
+    font-size: 15px;
+    padding: 40px 0;
+  }
+
+  @media (max-width: 900px) {
+    .modding-layout { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .mod-card { grid-template-columns: 64px 1fr; }
+    .mod-card img { width: 64px; height: 64px; }
+    .mod-card .btn { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 720px) {
+    .characters { grid-template-columns: 1fr; }
+    .social-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    section { padding: 80px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#/" class="nav-mark">Ruins Of Heaven</a>
+  <ul class="nav-links">
+    <li><a href="#/" data-route="/">Home</a></li>
+    <li><a href="#/wiki" data-route="/wiki">Wiki</a></li>
+    <li><a href="#/modding" data-route="/modding">Modding</a></li>
+    <li><a href="#/socials" data-route="/socials">Socials</a></li>
+  </ul>
+</nav>
+
+<div class="page active" id="page-home" data-page="/">
+
+<div class="hero" id="hero-section">
+  <div class="glow glow-ben" id="glowBen"></div>
+  <div class="glow glow-mercedes" id="glowMercedes"></div>
+  <p class="eyebrow">Banana Studios presents</p>
+  <h1 class="display">Ruins Of Heaven</h1>
+  <p class="tagline">Ben and Mercedes enter a Holy Temple to claim the Gem of Innocence and fix their problems. Twenty-five rooms stand between them and it — puzzles that need both players, enemies that need both powers, and one very persistent skeleton. The demo gets you through Room 13. What happens after that, you'll have to earn.</p>
+  <div class="hero-ctas">
+    <a href="#/play" data-route="/play" class="btn btn-primary">Play the Demo</a>
+    <a href="#story-anchor" class="btn btn-secondary">See how it works</a>
+  </div>
+  <p class="scroll-hint">Scroll ↓</p>
+</div>
+
+<section id="story-anchor">
+  <p class="section-label">Two Broken People</p>
+  <h2 class="section-title">Nobody enters a temple like this by accident.</h2>
+  <p class="premise-text">Ben and Mercedes aren't heroes. They're two people who need something fixed, and the Gem of Innocence is the only thing either of them has heard might do it. What they're each trying to fix is theirs to carry — the temple doesn't care, and neither does what's waiting at the end of it.</p>
+</section>
+
+<section id="powers">
+  <p class="section-label">Two Players</p>
+  <h2 class="section-title">Neither of you can finish this alone. That's the point.</h2>
+  <div class="characters">
+    <div class="char-card ben">
+      <div class="char-name">Ben</div>
+      <div class="char-role">Fire in the chest</div>
+      <p class="char-blurb">Ben burns through what's in front of him — obstacles, enemies, patience. Grace saw that in him and gave him something to match it. What he can't burn through, he has to trust Mercedes to carry him over.</p>
+    </div>
+    <div class="char-card mercedes">
+      <div class="char-name">Mercedes</div>
+      <div class="char-role">Flight, and the weight of it</div>
+      <p class="char-blurb">Mercedes flies, which means she's the one who decides what gets left behind and what comes with her. Grace gave her that choice too — and made sure it costs her something every time she makes it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="temple">
+  <p class="section-label">The Temple</p>
+  <h2 class="section-title">It starts calm. It does not stay calm.</h2>
+  <p class="premise-text">You'll start outside, in grass and birdsong, before the temple asks anything hard of you. Somewhere past that, Grace is waiting — and so is everything she's willing to throw at you to see if you deserve what you came for. The demo takes you far enough in to mean it. What's past that, you'll have to buy your way into.</p>
+</section>
+
+<section id="editions">
+  <p class="section-label">Editions</p>
+  <h2 class="section-title">Start with the demo. Stay for the rest.</h2>
+  <p class="premise-text">The demo is free and complete on its own terms — it's not a slice, it's a beginning. When you're ready to see the temple all the way through, Ruins Of Heaven and Ruins Of Heaven+ are both waiting, the latter open to anyone who wants to build on top of it.</p>
+  <div style="margin-top: 32px;">
+    <a href="#/play" data-route="/play" class="btn btn-primary">Play the Demo</a>
+  </div>
+</section>
+
+<section id="credits">
+  <p class="section-label">Credits</p>
+  <h2 class="section-title">Made by hand, by a small number of people.</h2>
+  <div class="characters">
+    <div class="char-card">
+      <div class="char-name" style="color: var(--parchment);">Banana Studios</div>
+      <div class="char-role">Design & Development</div>
+      <p class="char-blurb">The temple, its rules, and everything in it.</p>
+    </div>
+    <div class="char-card">
+      <div class="char-name" style="color: var(--parchment);">Real Life Productions</div>
+      <div class="char-role">Music</div>
+      <p class="char-blurb">Everything you'll hear on the way to the gem.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- /page-home -->
+
+<!-- ================= PLAY PAGE ================= -->
+<div class="page" id="page-play" data-page="/play">
+  <div class="page-hero">
+    <p class="section-label">Play</p>
+    <h1 class="display">Step into the temple</h1>
+    <p class="page-sub">The demo runs right here, or on itch.io if you'd rather play in its own tab.</p>
+  </div>
+  <section style="padding-top: 0;">
+    <div class="embed-wrap">
+      <iframe src="https://itch.io/embed-upload/18206997?color=000000" frameborder="0" width="552" height="167" allowfullscreen title="Ruins Of Heaven — play on itch.io"></iframe>
+      <p class="embed-fallback">
+        If the player above doesn't load, <a href="https://itch.io/embed-upload/18206997?color=000000" target="_blank" rel="noopener">open it directly on itch.io</a>.
+      </p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= WIKI PAGE ================= -->
+<div class="page" id="page-wiki" data-page="/wiki">
+  <div class="page-hero">
+    <p class="section-label">Wiki</p>
+    <h1 class="display">The basics</h1>
+    <p class="page-sub">Enough to know what you're walking into. Nothing past that — we'd rather you find the rest yourself.</p>
+  </div>
+  <section style="padding-top: 0;">
+    <div class="wiki-entry">
+      <div class="wiki-term">The Holy Temple</div>
+      <p class="wiki-def">Where Ben and Mercedes are headed. Grounds first, then the temple proper — it gets harder the deeper in you go.</p>
+    </div>
+    <div class="wiki-entry">
+      <div class="wiki-term">The Gem of Innocence</div>
+      <p class="wiki-def">What they're both after. Said to fix whatever's broken in the person who claims it.</p>
+    </div>
+    <div class="wiki-entry">
+      <div class="wiki-term">Grace</div>
+      <p class="wiki-def">The Angel of Gods. She's the one who grants Ben and Mercedes their powers — and the one who decides if they've earned the gem.</p>
+    </div>
+    <div class="wiki-entry">
+      <div class="wiki-term">Ben</div>
+      <p class="wiki-def">Player One. Fire-tempered, and it shows in how he plays.</p>
+    </div>
+    <div class="wiki-entry">
+      <div class="wiki-term">Mercedes</div>
+      <p class="wiki-def">Player Two. Flies, and carries more than just Ben when she does.</p>
+    </div>
+    <div class="wiki-entry">
+      <div class="wiki-term">Co-op, only</div>
+      <p class="wiki-def">Ruins Of Heaven is built for two players. Neither Ben nor Mercedes can finish the temple without the other.</p>
+    </div>
+    <div class="wiki-note">More detailed pages (room guides, boss strategies, mod docs) are coming as the wiki grows. This page stays spoiler-light on purpose.</div>
+  </section>
+</div>
+
+<!-- ================= MODDING PAGE ================= -->
+<div class="page" id="page-modding" data-page="/modding">
+  <div class="page-hero">
+    <p class="section-label">Modding</p>
+    <h1 class="display">Build on the temple</h1>
+    <p class="page-sub">Upload a .bananmod file and Banana Studios will take a look. Approved mods show up below for anyone to download.</p>
+  </div>
+  <section style="padding-top: 0;">
+    <div class="server-banner" id="serverBanner">Server is down — uploads and browsing are unavailable right now. Try again shortly.</div>
+
+    <div class="modding-layout">
+      <form class="upload-form" id="uploadForm">
+        <div class="form-field">
+          <label for="modName">Mod name</label>
+          <input type="text" id="modName" name="name" required maxlength="80">
+        </div>
+        <div class="form-field">
+          <label for="modCreator">Creator</label>
+          <input type="text" id="modCreator" name="creator" required maxlength="60">
+        </div>
+        <div class="form-field">
+          <label for="modDescription">Description</label>
+          <textarea id="modDescription" name="description" required maxlength="500"></textarea>
+        </div>
+        <div class="form-field">
+          <label for="modImage">Image</label>
+          <input type="file" id="modImage" name="image" accept="image/png,image/jpeg,image/webp,image/gif" required>
+        </div>
+        <div class="form-field">
+          <label for="modFile">.bananmod file</label>
+          <input type="file" id="modFile" name="mod_file" accept=".bananmod" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="uploadSubmitBtn">Submit for review</button>
+        <p class="form-submit-status" id="uploadStatus"></p>
+      </form>
+
+      <div>
+        <div class="mod-browse-list" id="modBrowseList">
+          <p class="mod-empty-state">Loading mods…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SOCIALS PAGE ================= -->
+<div class="page" id="page-socials" data-page="/socials">
+  <div class="page-hero">
+    <p class="section-label">Socials</p>
+    <h1 class="display">Follow along</h1>
+    <p class="page-sub">Updates, clips, and whatever else comes out of building this.</p>
+  </div>
+  <section style="padding-top: 0;">
+    <div class="social-grid">
+      <a class="social-card" href="https://discord.gg/68qHsRmZB3" target="_blank" rel="noopener">
+        <span class="social-name">Discord</span>
+        <span class="social-handle">discord.gg/68qHsRmZB3</span>
+      </a>
+      <a class="social-card" href="https://x.com/Banana_Studioss" target="_blank" rel="noopener">
+        <span class="social-name">Twitter / X</span>
+        <span class="social-handle">@Banana_Studioss</span>
+      </a>
+      <a class="social-card" href="https://youtube.com/@bananatyt" target="_blank" rel="noopener">
+        <span class="social-name">YouTube</span>
+        <span class="social-handle">@bananatyt</span>
+      </a>
+      <a class="social-card" href="https://www.tiktok.com/@bananastudiossss" target="_blank" rel="noopener">
+        <span class="social-name">TikTok</span>
+        <span class="social-handle">@bananastudiossss</span>
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Ruins Of Heaven — Banana Studios. Two players required. Bring a friend.
+</footer>
+
+<script>
+  // ---------- Hero glow interaction ----------
+  const glowBen = document.getElementById('glowBen');
+  const glowMercedes = document.getElementById('glowMercedes');
+  const heroSection = document.getElementById('hero-section');
+
+  if (heroSection) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      glowBen.style.transform = `translate(${(x - rect.width/2) * 0.08}px, ${(y - rect.height/2) * 0.08}px)`;
+      glowMercedes.style.transform = `translate(${(x - rect.width/2) * -0.08}px, ${(y - rect.height/2) * -0.08}px)`;
+    });
+  }
+
+  // ---------- Page router ----------
+  const pages = document.querySelectorAll('.page');
+  const validRoutes = Array.from(pages).map(p => p.dataset.page);
+
+  function currentRoute() {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (hash === '' || hash === '/') return '/';
+    return validRoutes.includes(hash) ? hash : null;
+  }
+
+  function renderRoute() {
+    const hash = window.location.hash.replace(/^#/, '');
+    const route = currentRoute();
+
+    // Anchor-only hashes (e.g. #story-anchor) aren't routes — scroll to them
+    // within the active page instead of switching pages.
+    if (!route) {
+      if (hash && hash !== '/') {
+        const target = document.getElementById(hash.replace(/^\//, ''));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
+    pages.forEach(p => p.classList.toggle('active', p.dataset.page === route));
+    window.scrollTo(0, 0);
+
+    document.querySelectorAll('.nav-links a[data-route]').forEach(a => {
+      a.style.color = a.dataset.route === route ? 'var(--parchment)' : '';
+    });
+
+    if (route === '/modding') {
+      loadModList();
+      checkServerHealth();
+    }
+  }
+
+  window.addEventListener('hashchange', renderRoute);
+  window.addEventListener('DOMContentLoaded', renderRoute);
+
+  // ---------- Modding: backend wiring ----------
+  // The API's base URL is fetched from a GitHub raw text file so the backend
+  // address can change without redeploying this page.
+  const API_URL_SOURCE = 'https://raw.githubusercontent.com/Banana-Studioss/Ruins-Of-Heaven/main/APILink.txt';
+  let cachedApiBase = null;
+
+  async function getApiBase() {
+    if (cachedApiBase) return cachedApiBase;
+    const res = await fetch(API_URL_SOURCE, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Could not fetch API address');
+    const text = (await res.text()).trim();
+    cachedApiBase = text.replace(/\/+$/, '');
+    return cachedApiBase;
+  }
+
+  function showServerBanner(show) {
+    document.getElementById('serverBanner').classList.toggle('show', show);
+  }
+
+  async function checkServerHealth() {
+    try {
+      const base = await getApiBase();
+      const res = await fetch(`${base}/api/health`, { cache: 'no-store' });
+      showServerBanner(!res.ok);
+    } catch (err) {
+      showServerBanner(true);
+    }
+  }
+
+  async function loadModList() {
+    const listEl = document.getElementById('modBrowseList');
+    try {
+      const base = await getApiBase();
+      const res = await fetch(`${base}/api/mods`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('bad response');
+      const mods = await res.json();
+
+      if (!mods.length) {
+        listEl.innerHTML = '<p class="mod-empty-state">No mods approved yet — be the first to submit one.</p>';
+        return;
+      }
+
+      listEl.innerHTML = mods.map(mod => `
+        <div class="mod-card">
+          <img src="${base}${mod.image_url}" alt="${escapeHtml(mod.name)}" loading="lazy">
+          <div>
+            <div class="mod-card-name">${escapeHtml(mod.name)}</div>
+            <div class="mod-card-creator">by ${escapeHtml(mod.creator)}</div>
+            <div class="mod-card-desc">${escapeHtml(mod.description)}</div>
+          </div>
+          <a class="btn btn-secondary" href="${base}${mod.download_url}">Download</a>
+        </div>
+      `).join('');
+    } catch (err) {
+      listEl.innerHTML = '<p class="mod-empty-state">Couldn\'t reach the mod server. Try again shortly.</p>';
+      showServerBanner(true);
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ---------- Modding: upload form ----------
+  const uploadForm = document.getElementById('uploadForm');
+  if (uploadForm) {
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('uploadStatus');
+      const submitBtn = document.getElementById('uploadSubmitBtn');
+      statusEl.textContent = '';
+      statusEl.className = 'form-submit-status';
+
+      const formData = new FormData(uploadForm);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting…';
+
+      try {
+        const base = await getApiBase();
+        const res = await fetch(`${base}/api/mods`, {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          statusEl.textContent = data.error || 'Something went wrong. Try again.';
+          statusEl.classList.add('error');
+        } else {
+          statusEl.textContent = data.message || 'Submitted! Waiting on review.';
+          statusEl.classList.add('success');
+          uploadForm.reset();
+          loadModList();
+        }
+      } catch (err) {
+        statusEl.textContent = 'Could not reach the mod server. Try again shortly.';
+        statusEl.classList.add('error');
+        showServerBanner(true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit for review';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
